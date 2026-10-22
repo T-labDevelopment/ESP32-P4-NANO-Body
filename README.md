@@ -2,8 +2,8 @@
 
 Waveshare ESP32-P4-NANO専用の3Dプリント筐体設計データ。
 
-**現行設計: [Rev.C](rev-c/README.md)**（2026-10-22）  
-**旧設計: [Rev.A](rev-a/README.md) / [Rev.B](rev-b/README.md)（前面開口位置の不一致を実機確認）**（履歴として保持）
+**現行設計: [Rev.D](rev-d/README.md)**（2026-10-23、開口の左右反転＋5mm拡張）  
+**旧設計: [Rev.A](rev-a/README.md) / [Rev.B](rev-b/README.md) / [Rev.C](rev-c/README.md)**（履歴として保持）
 
 USB-A・USB-C・RJ45の開口、底蓋からのM3ねじ4点締結、基板の上下挟み込み方式。Rev.Bでは外側へ飛び出さないねじ固定柱を採用し、薄肉の中空・長方形ケースとする。Bambu Lab A1 / PETGを想定。
 
@@ -11,13 +11,14 @@ USB-A・USB-C・RJ45の開口、底蓋からのM3ねじ4点締結、基板の上
 
 ## CADソースと印刷用データ
 
-- `rev-b/generate_enclosure.py`: 現行CadQuery設計ソース
+- `rev-d/generate_enclosure.py`: 現行の開口位置・寸法を定義するCADソース
+- `rev-b/generate_enclosure.py`: 共通の機械構造を定義する継承元CADソース
 - `rev-b/render_preview.py`: 外観・平面図プレビュー
 - `rev-b/requirements.txt`: 固定した依存バージョン
 - `rev-a/`: Rev.A設計と仕様の履歴
 - `.github/workflows/generate-cad.yml`: CADモデルからSTL・STEPを再生成するワークフロー
 
-生成時はPython環境とCadQueryの安定版を使用し、出力のSTL・STEPを検証する。現物嵌合の未検証事項は [Rev.B仕様書](rev-b/README.md) に記載。
+生成時はPython環境とCadQueryの安定版を使用し、出力のSTL・STEPを検証する。現物嵌合の未検証事項は [Rev.D仕様書](rev-d/README.md) に記載。
 
 ## 登録元
 
@@ -25,4 +26,4 @@ USB-A・USB-C・RJ45の開口、底蓋からのM3ねじ4点締結、基板の上
 
 ## 実機試作時の重要な注意
 
-Rev.Bの実物ではUSB-A/RJ45の共通開口が端子群に対して左側へずれている問題が確認された。**Rev.BのSTLを新規造形しないこと**。現行修正候補は[Rev.C](rev-c/README.md)。最初に前面嵌合確認用の2部品を印刷し、USB-AとRJ45が通ることを確かめる。Rev.Cも未実機検証。
+Rev.Bの実物ではUSB-A/RJ45の共通開口が端子群に対して左側へずれている問題が確認された。**Rev.BのSTLを新規造形しないこと**。Rev.Cでも改善が確認できないため、現行候補を[Rev.D](rev-d/README.md)に更新。開口を左右反転し、広い壁面側へ5mm拡張した。最初に前面試験用2部品を印刷して確認する。Rev.Dも実物未検証であり、解決済みと扱わない。
