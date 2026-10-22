@@ -6,6 +6,7 @@ on:
     paths:
       - 'rev-a/**'
       - 'rev-b/**'
+      - 'rev-c/**'
       - '.github/workflows/generate-cad.yml'
   workflow_dispatch:
 
@@ -40,6 +41,9 @@ jobs:
       - name: Generate Rev.B models
         run: python rev-b/generate_enclosure.py
 
+      - name: Generate Rev.C models and front-fit coupons
+        run: python rev-c/generate_enclosure.py
+
       - name: Verify output files exist
         shell: bash
         run: |
@@ -50,7 +54,12 @@ jobs:
             rev-a/ESP32_P4_NANO_Enclosure_RevA_assembly.step \
             rev-b/ESP32_P4_NANO_RevB_upper_print.stl \
             rev-b/ESP32_P4_NANO_RevB_bottom_print.stl \
-            rev-b/ESP32_P4_NANO_RevB_assembly.step; do
+            rev-b/ESP32_P4_NANO_RevB_assembly.step \
+            rev-c/ESP32_P4_NANO_RevC_upper_print.stl \
+            rev-c/ESP32_P4_NANO_RevC_bottom_print.stl \
+            rev-c/ESP32_P4_NANO_RevC_front_coupon_upper.stl \
+            rev-c/ESP32_P4_NANO_RevC_front_coupon_bottom.stl \
+            rev-c/ESP32_P4_NANO_RevC_assembly.step; do
             test -s "$file" || { echo "Missing/empty: $file"; exit 1; }
           done
 
@@ -60,9 +69,9 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add rev-a/*.stl rev-a/*.step rev-b/*.stl rev-b/*.step
+          git add rev-a/*.stl rev-a/*.step rev-b/*.stl rev-b/*.step rev-c/*.stl rev-c/*.step
           if ! git diff --cached --quiet; then
-            git commit -m "build(cad): regenerate STL and STEP for Rev.A and Rev.B [skip ci]"
+            git commit -m "build(cad): regenerate STL and STEP for Rev.A/Rev.B/Rev.C [skip ci]"
             git push origin HEAD:main
           else
             echo "Generated CAD outputs unchanged."
